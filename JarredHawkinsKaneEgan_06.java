@@ -6,6 +6,9 @@ public class JarredHawkinsKaneEgan_06 {
 	public static void main(String[] args) throws IOException {
 
 		int[] array = new int[100];
+		
+		int low = 0;
+		int high = array.length - 1;
 
 		final String INPUT_FILE = "2050 Project 06_Input.txt";
 		final String OUTPUT_FILE1 = "2050 Project 06_Output1.txt";
@@ -24,12 +27,21 @@ public class JarredHawkinsKaneEgan_06 {
 			array[i] = inputFile.nextInt();
 		}
 
-		array = shellSort(array);
+		int[] array1 = shellSort(array);
 
-		for (int i = 0; i < array.length; i++) {
-			outputFile1.println(array[i]);
+		for (int i = 0; i < array1.length; i++) {
+			outputFile1.println(array1[i]);
 		}
-		outputFile1.close();
+
+		int[] array2 = quickSort(array, low, high);
+
+		for (int i = 0; i < array2.length; i++) {
+			outputFile2.println(array2[i]);
+		}
+		
+        inputFile.close();
+        outputFile1.close();
+        outputFile2.close();
 	}
 
 	public static int[] shellSort(int[] array) {
@@ -73,8 +85,40 @@ public class JarredHawkinsKaneEgan_06 {
 		return array;
 	}
 
-	public static int[] quickSort(int[] array) {
+	public static int[] quickSort(int[] array, int low, int high) {
 
+        if (low < high) {
+
+            int index = partition(array, low, high);
+
+            quickSort(array, low, index - 1);
+            quickSort(array, index + 1, high);
+
+		} 
 		return array;
-	}
+    }
+
+    public static int partition(int[] array, int low, int high) {
+
+        int piviot = array[high];
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+
+            if (array[j] <= piviot) {
+
+                i++;
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+			}
+		}
+
+            int temp = array[i +1];
+            array[i + 1] = array[high];
+            array[high] = temp;
+
+		return i + 1;     
+    }
+
 }
